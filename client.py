@@ -9,6 +9,7 @@ ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 
+# Connect to the server
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     client.connect(ADDR)
@@ -58,7 +59,7 @@ for row in range(20):
     grid.append([])
     for column in range(20):
         grid[row].append(1)  # Append a cell
-
+# --- Send colour changes made by this client to the server  ---
 def send(msg):
     try:
         message = msg.encode(FORMAT)
@@ -71,7 +72,7 @@ def send(msg):
     except:
         pass
 
-# --- Receive colour changes made by other clients ---
+# --- Receive colour changes made by other clients via the server ---
 def receive_messages():
     while True:
         try:
