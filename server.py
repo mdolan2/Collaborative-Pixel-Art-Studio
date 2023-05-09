@@ -9,6 +9,7 @@ ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 
+# Establish the server socket
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
@@ -16,11 +17,11 @@ clients = []
 messages = []
 messages_lock = threading.Lock()
 
+# Manages the incoming and outgoing messages related to each client
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
     clients.append(conn)
 
-    #time.sleep(2)
     with messages_lock:
         for msg in messages:
             conn.send(msg.encode(FORMAT))
@@ -53,6 +54,7 @@ def handle_client(conn, addr):
     clients.remove(conn)                    
     conn.close()
 
+# Start the server and create a new thread for every client that connects
 def start():
     server.listen()
     print(f"[LISTENING] Server is listening on {SERVER}")
